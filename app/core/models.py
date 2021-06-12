@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, PermissionsMixin
+from django.conf import settings
 
 
 class UserManager(BaseUserManager):
@@ -47,3 +48,20 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
+
+
+class Task(models.Model):
+
+    task = models.CharField(
+        verbose_name='Task',
+        max_length=511
+    )
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE
+    )
+    is_done = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.task
+
