@@ -22,3 +22,15 @@ class TaskViewSet(viewsets.GenericViewSet,
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+
+
+class TaskDetailView(viewsets.ModelViewSet):
+
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+    queryset = Task.objects.all()
+    serializer_class = serializers.TaskSerializer
+
+    def get_queryset(self):
+        """return objects for current user"""
+        return self.queryset.filter(user=self.request.user).order_by('-task')

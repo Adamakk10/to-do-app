@@ -61,6 +61,7 @@ class Task(models.Model):
         on_delete=models.CASCADE
     )
     is_done = models.BooleanField(default=False)
+    time_created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.task
